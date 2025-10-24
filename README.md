@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A4 Multi Page Print</title>
 
+
 <style>
 :root {
   --paper-width: 210mm;
@@ -13,15 +14,21 @@
   --footer-height: 25mm;
 }
 
-/* বডি */
+/* মূল বডি */
 body {
   background: #eaeaea;
   margin: 0;
   padding: 20px;
   font-family: 'Noto Sans Bengali', sans-serif;
+}
+
+/* কন্টেন্ট এলাকা */
+#pageContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* পৃষ্ঠা ডিজাইন */
@@ -45,7 +52,6 @@ header {
   justify-content: space-between;
   align-items: center;
   height: var(--header-height);
-
   padding: 10mm 15mm;
 }
 
@@ -63,65 +69,84 @@ footer {
   justify-content: space-between;
   align-items: center;
   height: var(--footer-height);
-
   padding: 8mm 15mm;
 }
 
-/* প্রিন্ট বাটন */
+/* ✅ Print Button ঠিক করা */
 #printBtn {
   position: fixed;
-  top: 15px;
-  right: 20px;
+  top: 20px;
+  right: 30px;
   background: #1976d2;
   color: #fff;
   border: none;
-  padding: 10px 18px;
+  padding: 10px 16px;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 15px;
+  z-index: 99999; /* সবকিছুর উপর থাকবে */
+  width: auto; /* 👉 full width বন্ধ */
+  height: auto;
+  display: inline-block;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
 #printBtn:hover {
   background: #0d47a1;
 }
 
-/* প্রিন্ট মোড */
+/* ✅ শুধুমাত্র print-এর সময় */
 @media print {
-  body {
-    background: none;
+  /* sidebar/topbar লুকানো */
+  body * {
+    visibility: hidden;
   }
+
+  #pageContainer, #pageContainer * {
+    visibility: visible;
+  }
+
+  #pageContainer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
   #printBtn {
-    display: none;
+    display: none !important;
   }
+
   .sheet {
     width: 210mm;
     height: 270mm;
     border: none;
     margin: 0 auto;
     box-shadow: none;
-    /* page-break-after: always; ← এটা বাদ দাও */
   }
+
   .sheet:not(:last-child) {
     page-break-after: always;
   }
+
   header, footer {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
+
   @page {
     size: A4;
     margin: 0;
   }
 }
-
 </style>
-</head>
-<body>
 
+
+<!-- ✅ প্রিন্ট বাটন -->
 <button id="printBtn">🖨️ Print All Pages</button>
-
+<!-- ✅ প্রিন্টযোগ্য কন্টেইনার -->
 <div id="pageContainer">
 
-  <!-- ✅ পৃষ্ঠা ১ -->
+  <!-- পৃষ্ঠা ১ -->
   <section class="sheet">
     <header>
       <img src="" alt="Header Logo">
@@ -139,25 +164,25 @@ footer {
     </footer>
   </section>
 
-  <!-- ✅ পৃষ্ঠা ২ -->
-  {{-- <section class="sheet">
+  <!-- পৃষ্ঠা ২ -->
+  <section class="sheet">
     <header>
       <img src="" alt="Header Logo">
-      <div contenteditable="true">দ্বিতীয় পেজের হেডার</div>
+      <div contenteditable="true">তৃতীয় পেজের হেডার</div>
     </header>
 
     <main contenteditable="true">
-      <h1>দ্বিতীয় পেজের শিরোনাম</h1>
-      <p>এটি দ্বিতীয় পেজের কনটেন্ট।</p>
+      <h1>তৃতীয় পেজের শিরোনাম</h1>
+      <p>এটি তৃতীয় পেজের কনটেন্ট। Footer সবসময় নিচে থাকবে।</p>
     </main>
 
     <footer>
       <img src="" alt="Footer Logo">
-      <div contenteditable="true">দ্বিতীয় পেজের ফুটার ঠিকানা</div>
+      <div contenteditable="true">তৃতীয় পেজের ফুটার ঠিকানা</div>
     </footer>
-  </section> --}}
+  </section>
 
-  <!-- ✅ পৃষ্ঠা ৩ (তুমি যত ইচ্ছা এইভাবে যোগ করতে পারো) -->
+  <!-- পৃষ্ঠা 3 -->
   <section class="sheet">
     <header>
       <img src="" alt="Header Logo">
@@ -182,6 +207,8 @@ document.getElementById('printBtn').addEventListener('click', () => {
   window.print();
 });
 </script>
+
+
 
 </body>
 </html>
