@@ -161,7 +161,7 @@ footer img {
     <button class="delete-btn">🗑️</button>
 
     <header>
-      <img src="{{ asset('assets/header.jpeg') }}" alt="Header Logo">
+      <img src="" alt="Header Logo">
       <div contenteditable="true">তারিখ / ঠিকানা</div>
     </header>
 
@@ -176,7 +176,7 @@ footer img {
     </main>
 
     <footer>
-      <img src="{{ asset('assets/footer.jpeg') }}" alt="Footer Logo">
+      <img src="" alt="Footer Logo">
       <div contenteditable="true">Grameen CyberNet Ltd. | যোগাযোগ: +8801XXXXXXXXX</div>
     </footer>
   </section>
