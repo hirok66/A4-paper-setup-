@@ -1,4 +1,4 @@
-<img width="822" height="422" alt="image" src="https://github.com/user-attachments/assets/6efdef09-542e-488a-9d26-8a91419c3e25" /># A4-paper-setup-
+
 
 <!doctype html>
 <html lang="bn">
