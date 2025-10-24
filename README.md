@@ -1,144 +1,107 @@
-
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Print A4 page/title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A4 Multi Page Print</title>
+
 <style>
 :root {
   --paper-width: 210mm;
-  --paper-height: 297mm;
-  --header-height: 30mm;
-  --footer-height: 30mm;
+  --paper-height: 270mm;
+  --header-height: 25mm;
+  --footer-height: 25mm;
 }
 
-/* সাধারণ স্টাইল */
+/* বডি */
 body {
-  background: #f2f2f2;
+  background: #eaeaea;
   margin: 0;
   padding: 20px;
-  font-family: 'Noto Sans Bengali', Arial, sans-serif;
+  font-family: 'Noto Sans Bengali', sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* পৃষ্ঠা */
+/* পৃষ্ঠা ডিজাইন */
 .sheet {
   width: var(--paper-width);
-  height: 270mm;
+  height: var(--paper-height);
   background: #fff;
-  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   box-sizing: border-box;
-  position: relative;
   overflow: hidden;
-  border: 1px solid #ccc;
-}
-
-
-.sheet:hover .delete-btn {
-  display: block;
+  position: relative;
 }
 
 /* Header */
 header {
-  height: var(--header-height);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: var(--header-height);
+
   padding: 10mm 15mm;
-  background: #e6f2ff;
-  border-bottom: 1px solid #007bff;
-}
-header img {
-  width: 60mm;
-  max-height: 25mm;
-  object-fit: contain;
 }
 
-/* Main Content */
+/* Body */
 main {
   flex: 1;
-  padding: 6mm 11mm;
-  box-sizing: border-box;
+  padding: 10mm 15mm;
   overflow: hidden;
-}
-main h1 {
-  color: #007bff;
-  margin-top: 0;
-}
-main p {
-  color: #333;
-  line-height: 1.6;
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-table, th, td {
-  border: 1px solid #007bff;
-}
-th, td {
-  padding: 8px;
-  text-align: left;
-}
-th {
-  background: #cce5ff;
+  box-sizing: border-box;
 }
 
 /* Footer */
 footer {
-  height: var(--footer-height);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 6mm 15mm;
-  border-top: 1px solid #007bff;
-  background: #e6f2ff;
-  margin-top: auto;
-}
-footer img {
-  width: 40mm;
-  max-height: 20mm;
-  object-fit: contain;
+  height: var(--footer-height);
+
+  padding: 8mm 15mm;
 }
 
-/* Buttons */
-.print-btn, .mail-btn {
+/* প্রিন্ট বাটন */
+#printBtn {
   position: fixed;
   top: 15px;
   right: 20px;
+  background: #1976d2;
   color: #fff;
   border: none;
-  padding: 8px 14px;
-  border-radius: 5px;
+  padding: 10px 18px;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 14px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-  z-index: 999;
-  transition: all 0.2s ease-in-out;
+  font-size: 16px;
 }
-.mail-btn { right: 100px; background: #28a745; }
-.print-btn { background: #007bff; }
-.print-btn:hover, .mail-btn:hover { transform: scale(1.05); }
+#printBtn:hover {
+  background: #0d47a1;
+}
 
-/* প্রিন্টের জন্য */
+/* প্রিন্ট মোড */
 @media print {
-  body { background: none; }
-  .print-btn, .mail-btn, .delete-btn { display: none !important; }
+  body {
+    background: none;
+  }
+  #printBtn {
+    display: none;
+  }
   .sheet {
     width: 210mm;
     height: 270mm;
+    border: none;
     margin: 0 auto;
     box-shadow: none;
-    border: none;
-    page-break-after: auto; /* blank page এড়াতে */
-    overflow: hidden;
+    /* page-break-after: always; ← এটা বাদ দাও */
+  }
+  .sheet:not(:last-child) {
+    page-break-after: always;
   }
   header, footer {
     -webkit-print-color-adjust: exact;
@@ -146,52 +109,77 @@ footer img {
   }
   @page {
     size: A4;
-    margin: 10mm;
+    margin: 0;
   }
 }
+
 </style>
 </head>
 <body>
 
-<button class="mail-btn" id="mailBtn">Mail</button>
-<button class="print-btn" id="printBtn">Print</button>
+<button id="printBtn">🖨️ Print All Pages</button>
 
-<div id="pages">
+<div id="pageContainer">
+
+  <!-- ✅ পৃষ্ঠা ১ -->
   <section class="sheet">
-    <button class="delete-btn">🗑️</button>
-
     <header>
       <img src="" alt="Header Logo">
-      <div contenteditable="true">তারিখ / ঠিকানা</div>
+      <div contenteditable="true">প্রথম পেজের হেডার</div>
     </header>
 
     <main contenteditable="true">
-      <h1>প্রথম পৃষ্ঠা</h1>
-      <p>এটি একটি প্রিন্টেবল পৃষ্ঠা। এখানে তুমি নিজের লেখা যোগ করতে পারো।</p>
-      <table>
-        <tr><th>আইটেম</th><th>পরিমাণ</th><th>মূল্য</th></tr>
-        <tr><td>আইটেম ১</td><td>২</td><td>৳100</td></tr>
-        <tr><td>আইটেম ২</td><td>৫</td><td>৳250</td></tr>
-      </table>
+      <h1>প্রথম পেজের শিরোনাম</h1>
+      <p>এটি প্রথম পেজের কনটেন্ট। তুমি এখানে নিজের ডিজাইন বসাতে পারো।</p>
     </main>
 
     <footer>
       <img src="" alt="Footer Logo">
-      <div contenteditable="true">Grameen CyberNet Ltd. | যোগাযোগ: +8801XXXXXXXXX</div>
+      <div contenteditable="true">প্রথম পেজের ফুটার ঠিকানা</div>
     </footer>
   </section>
+
+  <!-- ✅ পৃষ্ঠা ২ -->
+  {{-- <section class="sheet">
+    <header>
+      <img src="" alt="Header Logo">
+      <div contenteditable="true">দ্বিতীয় পেজের হেডার</div>
+    </header>
+
+    <main contenteditable="true">
+      <h1>দ্বিতীয় পেজের শিরোনাম</h1>
+      <p>এটি দ্বিতীয় পেজের কনটেন্ট।</p>
+    </main>
+
+    <footer>
+      <img src="" alt="Footer Logo">
+      <div contenteditable="true">দ্বিতীয় পেজের ফুটার ঠিকানা</div>
+    </footer>
+  </section> --}}
+
+  <!-- ✅ পৃষ্ঠা ৩ (তুমি যত ইচ্ছা এইভাবে যোগ করতে পারো) -->
+  <section class="sheet">
+    <header>
+      <img src="" alt="Header Logo">
+      <div contenteditable="true">তৃতীয় পেজের হেডার</div>
+    </header>
+
+    <main contenteditable="true">
+      <h1>তৃতীয় পেজের শিরোনাম</h1>
+      <p>এটি তৃতীয় পেজের কনটেন্ট। Footer সবসময় নিচে থাকবে।</p>
+    </main>
+
+    <footer>
+      <img src="" alt="Footer Logo">
+      <div contenteditable="true">তৃতীয় পেজের ফুটার ঠিকানা</div>
+    </footer>
+  </section>
+
 </div>
 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
-$(document).ready(function(){
-  $('#printBtn').on('click', function(){ window.print(); });
-  $('#mailBtn').on('click', function(){ alert('Mail বাটন কাজের জন্য প্রস্তুত!'); });
-  $(document).on('click', '.delete-btn', function(){
-    if(confirm('তুমি কি এই পৃষ্ঠা মুছে ফেলতে চাও?')){
-      $(this).closest('.sheet').remove();
-    }
-  });
+document.getElementById('printBtn').addEventListener('click', () => {
+  window.print();
 });
 </script>
 
